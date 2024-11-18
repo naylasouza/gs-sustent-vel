@@ -1,97 +1,183 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Para o redirecionamento ao quiz
 
-function Products() {
+function SustainableStore() {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [userLocation, setUserLocation] = useState("");
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
+
   const productData = [
     {
       id: 1,
-      name: "Garrafa Térmica Ecológica",
-      description: "Mantém sua bebida na temperatura ideal enquanto reduz o uso de garrafas plásticas.",
-      price: "R$ 59,90",
-      image: "https://img.elo7.com.br/product/685x685/4CF4764/garrafa-termica-ecologica-garrafa-de-madeira.jpg",
+      name: "Painel Solar Portátil",
+      description: "Ideal para gerar energia limpa e sustentável em regiões ensolaradas.",
+      price: "R$ 499,90",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQac6oj-S-xlHvomUMDM41ua2uNyXXmvjb8-Q&s",
+      category: "Energia Solar",
     },
     {
       id: 2,
-      name: "Canudo de Metal Reutilizável",
-      description: "Diga adeus aos canudos de plástico com esta opção prática e ecológica.",
-      price: "R$ 29,90",
-      image: "https://s3.amazonaws.com/img.iluria.com/product/617737/F1A9CC/450xN.jpg",
+      name: "Turbina Eólica Doméstica",
+      description: "Perfeita para aproveitar a força do vento e reduzir custos de energia.",
+      price: "R$ 3.999,90",
+      image: "https://clickpetroleoegas.com.br/wp-content/uploads/2023/01/Liam-F1-Urban-Wind.jpg",
+      category: "Energia Eólica",
     },
     {
       id: 3,
-      name: "Sacola de Tecido Reutilizável",
-      description: "Ideal para compras e totalmente biodegradável, reduzindo o impacto ambiental.",
-      price: "R$ 39,90",
-      image: "https://img4.dhresource.com/webp/m/0x0/f3/albu/km/g/14/63915180-ae4f-4f65-a067-d02e51d8df31.jpg",
+      name: "Bateria Recarregável",
+      description: "Armazene energia renovável de forma eficiente e sustentável.",
+      price: "R$ 999,90",
+      image: "https://grupoe4.com.br/wp-content/uploads/2023/11/THUMB-1-12-768x432.webp",
+      category: "Baterias",
     },
     {
       id: 4,
-      name: "Escova de Dente de Bambu",
-      description: "Biodegradável e ideal para substituir escovas de plástico.",
-      price: "R$ 19,90",
-      image: "https://images.tcdn.com.br/img/img_prod/671855/kit_com_10_escovas_de_dente_de_bambu_2079_1_5888ce07ca6053a48a94fa12f2b07d6f.jpg",
+      name: "Consultoria para Energia Renovável",
+      description: "Especialistas em soluções personalizadas para sua casa ou empresa.",
+      price: "R$ 1.999,90",
+      image: "https://img.freepik.com/free-vector/consulting-concept-illustration_114360-1105.jpg",
+      category: "Consultorias",
     },
     {
       id: 5,
-      name: "Kit de Talheres de Bambu",
-      description: "Um conjunto completo para substituir os talheres descartáveis de plástico.",
-      price: "R$ 49,90",
-      image: "https://cdn.awsli.com.br/2500x2500/1710/1710377/produto/87481187/9c6800692c.jpg",
-    },
-    {
-      id: 6,
-      name: "Pote de Vidro Reutilizável",
-      description: "Ideal para armazenamento seguro e sustentável de alimentos.",
-      price: "R$ 34,90",
-      image: "https://conteudo.imguol.com.br/c/entretenimento/7e/2023/05/30/potes-de-vidro-1685457826852_v2_1x1.jpg",
-    },
-    {
-      id: 7,
-      name: "Carregador Solar Portátil",
-      description: "Use energia solar para carregar dispositivos e economizar eletricidade.",
+      name: "Curso Online de Eficiência Energética",
+      description: "Aprenda como economizar energia e reduzir sua pegada ambiental.",
       price: "R$ 199,90",
-      image: "https://http2.mlstatic.com/D_NQ_NP_892536-MLB74018266899_012024-O.webp",
-    },
-    {
-      id: 8,
-      name: "Painel Solar Portátil",
-      description: "Gera energia limpa para iluminar pequenas áreas ou carregar dispositivos.",
-      price: "R$ 499,90",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQac6oj-S-xlHvomUMDM41ua2uNyXXmvjb8-Q&s",
+      image: "https://image.freepik.com/free-vector/online-courses-isometric-illustration_1284-23363.jpg",
+      category: "Cursos",
     },
   ];
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchLocation(latitude, longitude);
+        },
+        () => {
+          setUserLocation("Localização não detectada.");
+        }
+      );
+    } else {
+      setUserLocation("Geolocalização não suportada pelo navegador.");
+    }
+  }, []);
+
+  const fetchLocation = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://geocode.xyz/${latitude},${longitude}?geoit=json`
+      );
+      const data = await response.json();
+      if (data.city) {
+        setUserLocation(data.city);
+        recommendProducts(data.city);
+      } else {
+        setUserLocation("Localização não identificada.");
+      }
+    } catch (error) {
+      setUserLocation("Erro ao obter localização.");
+    }
+  };
+
+  const recommendProducts = (location) => {
+    if (location.toLowerCase().includes("sol")) {
+      setRecommendedProducts(
+        productData.filter((product) => product.category === "Energia Solar")
+      );
+    } else if (location.toLowerCase().includes("vento")) {
+      setRecommendedProducts(
+        productData.filter((product) => product.category === "Energia Eólica")
+      );
+    } else {
+      setRecommendedProducts(productData);
+    }
+  };
+
+  const filteredProducts = selectedCategory
+    ? recommendedProducts.filter((product) => product.category === selectedCategory)
+    : recommendedProducts;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b bg-slate-100 to-gray-100 py-16 px-8">
-      <div className="text-center mb-12">
-        <h2 className="text-5xl font-extrabold">Produtos Sustentáveis</h2>
-        <p className="text-lg text-gray-700 mt-4 leading-relaxed">
-          Descubra nossa seleção de produtos sustentáveis que fazem a diferença. 
-          Cada compra ajuda a financiar projetos que promovem práticas conscientes e 
-          sustentáveis, contribuindo para um futuro melhor.
+    <div className="min-h-screen bg-gradient-to-r from-gray-50 to-blue-50 py-12 px-6">
+      <div className="mb-12">
+        <h1 className="text-5xl font-extrabold text-blue-800">Loja Sustentável</h1>
+        <p className="text-lg text-gray-700 mt-4">
+          Explore nossa seleção de produtos e serviços que promovem um futuro sustentável.
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          Sua localização atual: <strong>{userLocation}</strong>
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {productData.map((product) => (
+
+      <div className="mb-8">
+        <label htmlFor="category" className="text-lg font-semibold text-gray-800">
+          Filtrar por categoria:
+        </label>
+        <select
+          id="category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="ml-4 px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">Todas</option>
+          <option value="Energia Solar">Energia Solar</option>
+          <option value="Energia Eólica">Energia Eólica</option>
+          <option value="Baterias">Baterias</option>
+          <option value="Consultorias">Consultorias</option>
+          <option value="Cursos">Cursos</option>
+        </select>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-all"
+            className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all"
           >
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-40 object-cover rounded-t-md mb-4"
+              className="w-full h-40 object-cover rounded-md mb-4"
             />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-            <p className="text-gray-600 mb-4">{product.description}</p>
-            <p className="text-lg font-semibold text-blue-700 mb-4">{product.price}</p>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
+            <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
+            <p className="text-sm text-gray-600 mb-4">{product.description}</p>
+            <p className="text-xl font-semibold text-blue-600">{product.price}</p>
+            <button className="w-full bg-blue-600 text-white py-2 mt-4 rounded-lg hover:bg-blue-700 transition">
               Comprar
             </button>
           </div>
         ))}
       </div>
+
+      <div className="mt-12 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+        <h2 className="text-3xl font-bold text-gray-800">Recompensas Verdes</h2>
+        <p className="text-base text-gray-600 mt-4">
+          Complete o nosso{" "}
+          <Link to="/quiz" className="text-blue-600 font-semibold hover:underline">
+            Quiz de Sustentabilidade
+          </Link>{" "}
+          e ganhe descontos exclusivos para suas compras!
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          Contribua para práticas sustentáveis e seja recompensado.
+        </p>
+      </div>
+
+      <div className="mt-12 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+        <h3 className="text-2xl font-bold text-gray-800">Pagamentos Sustentáveis</h3>
+        <p className="text-base text-gray-600 mt-4">
+          Faça sua parte! Aceitamos pagamentos com criptomoedas verdes e doamos parte dos lucros
+          para projetos ambientais.
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          Junte-se a nós na construção de um futuro mais sustentável.
+        </p>
+      </div>
     </div>
   );
 }
 
-export default Products;
+export default SustainableStore;
