@@ -22,9 +22,12 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/products" className="hover:text-blue-600 mr-5">
+            <Link to="/products" className="hover:text-blue-600">
               Produtos
             </Link>
+          </li>
+          <li>
+            <Link to="/assistant" className="hover:text-blue-600 mr-16" >Assistente</Link>
           </li>
         </ul>
       </nav>
