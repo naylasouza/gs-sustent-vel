@@ -1,0 +1,116 @@
+CREATE TABLE Perguntas (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, -- Coluna ID como identidade
+    pergunta VARCHAR2(200) NOT NULL -- Texto da pergunta
+);
+
+
+-- Excluir a tabela Respostas
+DROP TABLE Respostas;
+
+-- Excluir a tabela Perguntas
+DROP TABLE Perguntas;
+
+
+CREATE TABLE Respostas (
+    id INT NOT NULL PRIMARY KEY,      
+    pergunta_id INT NOT NULL,        
+    resposta VARCHAR2(300) NOT NULL,   
+    correta CHAR(1) NOT NULL,
+    CONSTRAINT fk_pergunta FOREIGN KEY (pergunta_id) REFERENCES Perguntas(id) ON DELETE CASCADE
+);
+
+
+SELECT * FROM Perguntas;
+SELECT * FROM Respostas;
+
+
+
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é a melhor prática para economizar energia em casa?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual fonte de energia é renovável?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é o benefício do uso de lâmpadas LED?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual desses materiais pode ser reciclado?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é uma alternativa ao uso de sacolas plásticas?');
+INSERT INTO Perguntas (pergunta) VALUES ('O que significa a prática de compostagem?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é uma prática para reduzir o consumo de água?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual destes aparelhos consome mais energia?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é o impacto positivo das energias renováveis?');
+INSERT INTO Perguntas (pergunta) VALUES ('Qual é o melhor horário para usar eletricidade?');
+
+
+CREATE SEQUENCE seq_respostas_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+CREATE OR REPLACE TRIGGER trg_respostas_id
+BEFORE INSERT ON Respostas
+FOR EACH ROW
+BEGIN
+  :NEW.id := seq_respostas_id.NEXTVAL;
+END;
+
+
+--------------------------------------------------------------------------------------------------------------
+--Respostas pergunta 1
+
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (1, 'Desligar luzes desnecessárias', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (1, 'Usar o ar-condicionado o tempo todo', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (1, 'Deixar as luzes ligadas', 'F');
+
+
+--Respostas pergunta 2
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (2, 'Carvão', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (2, 'Energia Solar', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (2, 'Gás Natural', 'F');
+
+--Respostas pergunta 3
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (3, 'Consome menos energia', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (3, 'Dura menos', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (3, 'Aquece mais', 'F');
+
+--Respostas pergunta 4
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (4, 'Plástico', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (4, 'Resíduos hospitalares', 'F');
+
+--Respostas pergunta 5
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (5, 'Sacolas de papel', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (5, 'Sacolas de plástico', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (5, 'Sacolas de papelão', 'F');
+
+--Respostas pergunta 6
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (6, 'Reciclar plásticos', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (6, 'Transformar resíduos orgânicos em adubo', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (6, 'Reutilizar papel', 'F');
+
+--Respostas pergunta 7
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (7, 'Tomar banhos curtos', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (7, 'Lavar o carro todos os dias', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (7, 'Deixar a torneira aberta', 'F');
+
+-- Pergunta 8
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (8, 'Geladeira', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (8, 'Carregador de celular', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (8, 'Televisão em standby', 'F');
+
+-- Pergunta 9
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (9, 'Reduzem emissões de CO₂', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (9, 'Causam mais poluição', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (9, 'Aumentam o uso de combustíveis fósseis', 'F');
+
+-- Pergunta 10
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (10, 'Horário de pico', 'F');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (10, 'Fora do horário de pico', 'T');
+INSERT INTO Respostas (pergunta_id, resposta, correta) VALUES (10, 'Durante a tarde', 'F');
+
+
+CREATE TABLE Contato (
+    id NUMBER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY, -- Coluna ID com auto-incremento
+    nome VARCHAR2(200) NOT NULL,
+    email VARCHAR2(200) NOT NULL,
+    mensagem VARCHAR2(500) NOT NULL
+);
+
+SELECT * FROM Contato;
+
+INSERT INTO Contato (id, nome, email, mensagem) VALUES (1, 'Karen Cristina', 'karen@gmail.com', 'Gostaria de mais informações');

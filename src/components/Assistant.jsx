@@ -8,7 +8,7 @@ function Assistant() {
     const handleQuery = async () => {
         setLoading(true);
         try {
-            const apiKey = "";//adicionar a senha para funcionar
+            const apiKey = "";
             const endpoint = "https://api.openai.com/v1/chat/completions";
 
             const requestOptions = {
