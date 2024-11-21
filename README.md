@@ -1,6 +1,6 @@
 # **Startup Sustentável**
 
-Este trabalho acadêmico foi desenvolvido como parte do **Desafio Global Solution** da FIAP, com o objetivo de promover a conscientização ambiental e a transição energética por meio da educação e do apoio a práticas sustentáveis. O trabalho foi realizado em grupo, composto por **Nayla Souza Ribeiro**, **Manuela Archanjo** e **Karen Cristina**, com o intuito de criar uma solução que gere impacto positivo para o futuro do planeta.
+Este trabalho acadêmico foi desenvolvido como parte do **Desafio Global Solution** da FIAP, com o objetivo de promover a conscientização ambiental e a transição energética por meio da educação e do apoio a práticas sustentáveis. O trabalho foi realizado em grupo, composto por **Nayla Souza Ribeiro** 99035, **Manuela Archanjo** e **Karen Cristina**, com o intuito de criar uma solução que gere impacto positivo para o futuro do planeta.
 
 ## **Tecnologias Utilizadas**
 
