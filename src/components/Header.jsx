@@ -27,7 +27,7 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/assistant" className="hover:text-blue-600 mr-16" >Assistente</Link>
+            <Link to="/assistant" className="hover:text-blue-600" >Assistente</Link>
           </li>
           <li>
             <Link to="/contact" className="hover:text-blue-600 mr-16" >
