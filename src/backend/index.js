@@ -5,8 +5,8 @@ const cors = require('cors');
 const oracledb = require('oracledb');
 
 const dbConfig = {
-    user:"RM551126",
-    password:"250802",
+    user:"", //inserir as credenciais
+    password:"", //inserir as credenciais
     connectString: 'oracle.fiap.com.br:1521/ORCL',
 };
 
