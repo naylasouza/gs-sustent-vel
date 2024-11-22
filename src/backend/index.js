@@ -5,8 +5,8 @@ const cors = require('cors');
 const oracledb = require('oracledb');
 
 const dbConfig = {
-    user:"", //inserir as credenciais
-    password:"", //inserir as credenciais
+    user:"", //inserir as credenciais do arquivo .env
+    password:"", //inserir as credenciais do arquivo .env
     connectString: 'oracle.fiap.com.br:1521/ORCL',
 };
 
